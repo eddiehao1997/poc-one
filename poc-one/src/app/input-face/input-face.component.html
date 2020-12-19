@@ -1,5 +1,99 @@
-<div class="container">
-    <p>input-face works!</p>
+<div class="container" style="padding-left:0; padding-right: 0;">
+  <div class="card building-card" style="margin-bottom: 10px;">
+    <div class="card-body" style="padding-top: 10px; padding-bottom: 10px;">
+      <div class="row">
+        <div class="col-6">
+          <div class="btn-group">
+            <h4 style="margin-right: 20px;">楼号选择</h4>
+            <button type="button" class="btn dropdown-toggle text-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              style=" min-width: 100px;"
+            >
+              {{currentBuilding.name}}
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">1#楼</a>
+              <a class="dropdown-item" href="#">2#楼</a>
+              <a class="dropdown-item" href="#">3#楼</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 text-right">
+          <button type="button" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            添加新楼层
+          </button>
+          <button type="button" class="btn btn-danger">
+            <i class="fa fa-minus" aria-hidden="true"></i>
+            删除选中楼层
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-9" style="padding-right: 0;">
+      <div class="card floor-card" *ngFor = "let floor of currentBuilding.data.floor">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col-2">
+              <h5>{{floor.name}}层</h5>
+            </div>
+            <div class="col-10">
+              <div class="row no-gutters">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">墙面类型</th>
+                      <th scope="col">墙面厚度</th>
+                      <th scope="col">墙总长</th>
+                      <th scope="col">梁高（减掉板）</th>
+                      <th scope="col">板下</th>
+                      <th scope="col">梁下墙长</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor = "let wall of floor.data.walls">
+                      <th scope="row">{{wall.name}}</th>
+                      <td>{{wall.data.thickness}}</td>
+                      <td>{{wall.data.totLengh}}</td>
+                      <td>{{wall.data.beamDepth}}</td>
+                      <td>{{wall.data.depUnderBoard}}</td>
+                      <td>{{wall.data.preDeductable.beamLengh}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="container text-center">
+                  <button type="button" class="btn btn-secondary btn-sm"
+                    style="margin-right: 10px;"
+                  >
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    添加新墙面
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-sm">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                    删除选中楼层
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" >
+        <div class="card-body">
+          <h4 class="card-title">{{currentBuilding.name}}小结</h4>
+          <p class="card-text"> 总面积 </p>
+          <h4 class="sum-data"> {{currentBuilding.data.sumSurface}} m<sup>2</sup> </h4>
+          <p class="card-text"> 总体积 </p>
+          <h4 class="sum-data"> {{currentBuilding.data.sumVolume}} m<sup>3</sup> </h4>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 

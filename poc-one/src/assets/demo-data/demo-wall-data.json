@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "80+80隔声板",
+            "data":{
+                "thickness": 80
+            }
+        }, 
+        {
+            "id": 2,
+            "name": "80素板",
+            "data":{
+                "thickness": 80
+            }
+        },
+        {
+            "id": 2,
+            "name": "100素板",
+            "data":{
+                "thickness": 100
+            }
+        }
+    ]
+}    

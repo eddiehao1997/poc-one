@@ -36,10 +36,22 @@ export interface Wall {
     } 
 }
 
+export interface Floor {
+    id: number;
+    name: string;
+    data: {
+        walls: Wall[]
+    }
+}
+
 export interface Building {
     id: number;
     name: string;
     data:{
-        walls: Wall[]
+        walls: Floor[]
     }
+}
+
+export interface dataExchangeObj {
+    data: []
 }

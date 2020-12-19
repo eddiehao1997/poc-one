@@ -1,0 +1,15 @@
+.window-list-item:hover {
+    cursor: pointer;
+}
+
+.submit-button {
+    margin-top: 20px;
+}
+
+.window-list-card {
+    height: calc(70vh);
+}
+
+.window-edit-card {
+    height: calc(70vh);
+}

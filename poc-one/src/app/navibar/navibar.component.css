@@ -1,0 +1,13 @@
+.curr-directory {
+    color:black;
+    margin-left: 10px;
+}
+
+.navbar {
+    margin-bottom: 10px;
+}
+
+.navbar-heading:hover {
+    color: #04c5cd;
+    cursor: pointer;
+}

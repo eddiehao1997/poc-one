@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row"
+        *ngIf = "loadingData !== true"
+    >
+        <div class="col-5">
+            <h4>已保存墙体</h4>
+            <div class="card wall-list-card">
+                <div class="list-group">
+                    <button 
+                        class = "list-group-item list-group-item-action"
+                        *ngFor = "let wall of wallData"
+                        [class.active] = "wall === currentWall"
+                        (click) = selectWall(wall)
+                    > {{wall.name}} </button>
+                    <button 
+                        class = "list-group-item list-group-item-action text-center"
+                        (click) = editNewWall()
+                    > 
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        添加新墙面模板
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-7">
+            <h4>编辑栏</h4>
+            <div class="card wall-edit-card">
+                <div class="card-body">
+                    <form [formGroup]="wallForm" (ngSubmit)="onSubmit(wallForm.value)">
+                        <label for="name">墙面名称</label>
+                        <div class="input-group">
+                            <input 
+                                class="form-control"
+                                id="name" type="text" formControlName="name"
+                                placeholder="请输入墙面名称">
+                        </div>
+
+                        <label for="thickness">墙面厚度</label>
+                        <div class="input-group">
+                            <input
+                                class="form-control"
+                                id="thickness" type="number" formControlName="thickness"
+                                placeholder="请输入墙面厚度">
+
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">cm</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center submit-button">
+                            <button type="submit" class="btn btn-light"
+                                style="width:10em;"
+                            >
+                                Save
+                            </button>
+                        </div>
+                        
+                    </form>
+                </div>  
+            </div>
+        </div>
+    </div>
+
+</div>

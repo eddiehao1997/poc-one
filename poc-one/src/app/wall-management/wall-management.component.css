@@ -1,0 +1,15 @@
+.wall-list-item:hover {
+    cursor: pointer;
+}
+
+.submit-button {
+    margin-top: 20px;
+}
+
+.wall-list-card {
+    height: calc(70vh);
+}
+
+.wall-edit-card {
+    height: calc(70vh);
+}
