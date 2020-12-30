@@ -1,4 +1,4 @@
-<div class="container" style="padding-left:0; padding-right: 0;">
+<div class="container" style="padding-left:0; padding-right: 0; max-width: 90vw;">
   <div class="card building-card" style="margin-bottom: 10px;">
     <div class="card-body" style="padding-top: 10px; padding-bottom: 10px;">
       <div class="row">
@@ -18,14 +18,17 @@
           </div>
         </div>
         <div class="col-6 text-right">
-          <button type="button" class="btn btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            添加新楼层
-          </button>
-          <button type="button" class="btn btn-danger">
-            <i class="fa fa-minus" aria-hidden="true"></i>
-            删除选中楼层
-          </button>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-success"
+              (click)="addFloor()">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              添加新楼层
+            </button>
+            <button type="button" class="btn btn-danger">
+              <i class="fa fa-minus" aria-hidden="true"></i>
+              删除选中楼层
+            </button>
+          </div>
         </div>
 
       </div>
@@ -33,104 +36,145 @@
   </div>
 
   <div class="row">
-    <div class="col-9" style="padding-right: 0;">
-      <form formGroupName="buildingForm">
+    <div class="col-10" style="padding-right: 0;">
+      <form [formGroup]="buildingForm">
         <div formArrayName="floors">
-          <div class="card floor-card" *ngFor="let floor of buildingForm.get('floors').controls; let ifloor = index">
-            <div class="card-body" [formGroupName]="ifloor">
-              <div class="row no-gutters align-items-center">
+          <div class="card floor-card" 
+            *ngFor="let floor of buildingForm.get('floors')['controls']; let ifloor = index"
+            [formGroupName]="ifloor">
+            <div class="card-body">
+              <div class="row align-items-center">
                 <div class="col-2">
-                  <input type="text" >
-                </div>
-                <div class="col-10">
+                  
+                  <input type="text" formControlName="name" placeholder="楼层名称"
+                    style="width: 100%; text-align: center;">
+                  <p style="text-align: center;">楼层</p>
+                  <button type="button" class="btn btn-danger btn-sm btn-block  "
+                    (click)="deleteFloor(ifloor)" >
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                    删除该层
+                  </button>
 
                 </div>
+
+                <div class="col-10" formArrayName="walls">
+                    <table class="table table-hover"
+                    style="width: 100%;">
+                      <thead>
+                        <tr>
+                          <th class="wall-input-head" style="width: 20%;" scope="col">墙面类型</th>
+                          <th class="wall-input-head" scope="col">厚度</th>
+                          <th class="wall-input-head" scope="col">总长</th>
+                          <th class="wall-input-head" scope="col">板下总高</th>
+                          <th class="wall-input-head" scope="col">梁高</th>
+                          <th class="wall-input-head" scope="col">梁长</th>
+                          <th class="wall-input-head" style="width: 5%;" scope="col">删除</th>
+                        </tr>
+                      </thead>
+                      <tbody> 
+                          <tr class="wall-table-row" *ngFor="let wall of floor.get('walls')['controls'];
+                            let wallIndex = index" [formGroupName]="wallIndex">
+                              <td style="width: 20%;">
+                                <div class="input-group input-group-sm mb-3 wall-input-group">
+                                  <select id="inputState" class="form-control">
+                                    <option>Choose...</option>
+                                    <option>...</option>
+                                  </select>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group input-group-sm mb-3 wall-input-group">
+                                  <input type="text" readonly class="form-control" placeholder="0"  aria-describedby="basic-addon2">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">cm</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group input-group-sm mb-3 wall-input-group">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon3">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon3">m</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group input-group-sm mb-3 wall-input-group">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon4">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon4">m</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="input-group input-group-sm mb-3 wall-input-group">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon5">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon5">m</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <!-- <input class="wall-table-input" formControlName="name"> -->
+                                <div class="input-group input-group-sm mb-3 wall-input-group">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon6">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon6">m</span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td style="width: 5%;">
+                                <button type="button" class="btn btn-danger btn-sm btn-block  "
+                                  (click)="deleteWall(floor, wallIndex)" >
+                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                              </td>
+                          </tr>
+                      </tbody>
+                    </table>
+
+                    <!-- <div class="row" *ngFor="let wall of floor.get('walls')['controls'];
+                              let wallIndex = index" [formGroupName]="wallIndex">
+
+                        <div class="col-2">
+
+                        </div>
+                      <input formControlName="name"/>
+                      <input type="text" >
+                    </div> -->
+
+                    <button type="button" class="btn btn-success btn-sm btn-block"
+                    style="margin-right: -15px; margin-left: -15px;"
+                      (click)="addWall(floor)">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                      添加新墙面
+                    </button>
+                </div>
+
               </div>
             </div>
           </div>
         </div>
-          <!-- <div class="card floor-card" *ngFor = "let floor of floors; let ifloor=index">
-            <div class="card-body">
 
-              <div class="row no-gutters align-items-center">
-                <div class="col-2">
-                  <input type="text">
-                </div>
-                <div class="col-10">
-                  <div class="row no-gutters">
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th scope="col">墙面类型</th>
-                          <th scope="col">墙面厚度</th>
-                          <th scope="col">墙总长</th>
-                          <th scope="col">梁高（减掉板）</th>
-                          <th scope="col">板下</th>
-                          <th scope="col">梁下墙长</th>
-                        </tr>
-                      </thead>
-                      <tbody> -->
-                        <!-- <tr *ngFor = "let wall of walls; let iwall=index">
-                          <div [formGroupName]="iwall">
-                            <th scope="row">
-                              <input formControlName="name">
-                            </th>
-                            <td>
-                              <input formControlName="thickness">
-                            </td>
-                            <td>
-                              <input formControlName="totLengh">
-                            </td>
-                            <td>
-                              <input formControlName="beamDepth">
-                            </td>
-                            <td>
-                              <input formControlName="depUnderBoard">
-                            </td>
-                          </div>
-                        </tr> -->
-                        <!-- <tr *ngFor = "let wall of floor.data.walls">
-                          <th scope="row">{{wall.name}}</th>
-                          <td>{{wall.data.thickness}}</td>
-                          <td>{{wall.data.totLengh}}</td>
-                          <td>{{wall.data.beamDepth}}</td>
-                          <td>{{wall.data.depUnderBoard}}</td>
-                          <td>{{wall.data.preDeductable.beamLengh}}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div class="container text-center">
-                      <button type="button" class="btn btn-secondary btn-sm"
-                        style="margin-right: 10px;"
-                      >
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                        添加新墙面
-                      </button>
-                      <button type="button" class="btn btn-secondary btn-sm">
-                        <i class="fa fa-minus" aria-hidden="true"></i>
-                        删除选中楼层
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div> -->
       </form>
     </div>
 
-    <div class="col-3">
+    <div class="col-2">
       <div class="card" >
         <div class="card-body">
-          <h4 class="card-title">{{currentBuilding.name}}小结</h4>
+          
+          <h4 class="card-title align-items-right">{{currentBuilding.name}}小结</h4>
           <p class="card-text"> 总面积 </p>
           <h4 class="sum-data"> {{currentBuilding.data.sumSurface}} m<sup>2</sup> </h4>
           <p class="card-text"> 总体积 </p>
           <h4 class="sum-data"> {{currentBuilding.data.sumVolume}} m<sup>3</sup> </h4>
+
+          <button type="button" class="btn btn-primary btn-sm btn-block" 
+          (click)="calculateResult()">计算</button>
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
