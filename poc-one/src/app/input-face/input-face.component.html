@@ -33,7 +33,7 @@
   </div>
   <div class="row">
     <div class="col-9" style="padding-right: 0;">
-      <div class="card floor-card" *ngFor = "let floor of currentBuilding.data.floor">
+      <!-- <div class="card floor-card" *ngFor = "let floor of currentBuilding.data.floor">
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col-2">
@@ -80,8 +80,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> !-->
+      <button type="button" class="btn btn-primary" (click)="calculateResult()">Primary</button>
     </div>
+
     <div class="col-3">
       <div class="card" >
         <div class="card-body">

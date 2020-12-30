@@ -6,6 +6,8 @@ import { Door, Window, Wall, Building } from '../model/models'
 
 // sevices
 import { DataTrafficService } from '../service/dataTraffic/data-traffic.service'
+import { CalculateService } from '../service/calculate/calculate.service';
+
 
 @Component({
   selector: 'app-input-face',
@@ -31,254 +33,38 @@ export class InputFaceComponent implements OnInit {
                     name: "80+80", 
                     data:{
                         thickness: 80, 
-                        totLengh: 0,
+                        totLengh: 100,
                         beamDepth: 0.53,
                         depUnderBoard: 6.68,
                         preDeductable: {
-                            beamLengh: 0,
+                            beamLength: 0,
                             marginalHeight: 0
                         },
                         doorAndWindow: {
                             totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "100", 
-                    data:{
-                        thickness: 100, 
-                        totLengh: 24.2,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 5.8,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "120", 
-                    data:{
-                        thickness: 120, 
-                        totLengh: 261.75,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 136.25,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "120外墙", 
-                    data:{
-                        thickness: 120, 
-                        totLengh: 7.6,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 7.6,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
+                            windowsDetail: [{
+                              "id": 2,
+                              "name": "24*27窗口",
+                              "count": 1,
+                              "data":{
+                                  "height": 27,
+                                  "width": 24
+                              }
+                          }],
                             doorDetail: []
                         }
                     } 
                   }
                 ]
             }
-          }, 
-          {
-            id: 1,
-            name: "1F",
-            data: {
-                walls: [
-                  {
-                    id: 0, 
-                    name: "80+80", 
-                    data:{
-                        thickness: 80, 
-                        totLengh: 0,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 0,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "100", 
-                    data:{
-                        thickness: 100, 
-                        totLengh: 24.2,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 5.8,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "120", 
-                    data:{
-                        thickness: 120, 
-                        totLengh: 261.75,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 136.25,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "120外墙", 
-                    data:{
-                        thickness: 120, 
-                        totLengh: 7.6,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 7.6,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  }
-                ]
-            }
-          },
-          {
-            id: 1,
-            name: "2F",
-            data: {
-                walls: [
-                  {
-                    id: 0, 
-                    name: "80+80", 
-                    data:{
-                        thickness: 80, 
-                        totLengh: 0,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 0,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "100", 
-                    data:{
-                        thickness: 100, 
-                        totLengh: 24.2,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 5.8,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "120", 
-                    data:{
-                        thickness: 120, 
-                        totLengh: 261.75,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 136.25,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  },
-                  {
-                    id: 0, 
-                    name: "120外墙", 
-                    data:{
-                        thickness: 120, 
-                        totLengh: 7.6,
-                        beamDepth: 0.53,
-                        depUnderBoard: 6.68,
-                        preDeductable: {
-                            beamLengh: 7.6,
-                            marginalHeight: 0
-                        },
-                        doorAndWindow: {
-                            totalSize: 0,
-                            windowsDetail: [],
-                            doorDetail: []
-                        }
-                    } 
-                  }
-                ]
-            }
-          } 
+          }
         ]
     }
   }
 
   constructor(
     public dataTrafficService: DataTrafficService,
+    public calculateService: CalculateService
   ) { }
 
 
@@ -296,6 +82,22 @@ export class InputFaceComponent implements OnInit {
     //     alert("Failed to load!");
     //   }
     // })
+  }
+  
+
+
+  public calculateResult() {
+    var calResult = {
+      sumSurface: 0,
+      sumVolume: 0,
+    }
+    this.calculateService.loadDemoData(this.currentBuilding);
+    calResult = this.calculateService.goCalculate();
+
+    console.log("updating result");
+    console.log(calResult);
+    this.currentBuilding.data.sumSurface = calResult.sumSurface;
+    this.currentBuilding.data.sumVolume = calResult.sumVolume;
   }
 
 }

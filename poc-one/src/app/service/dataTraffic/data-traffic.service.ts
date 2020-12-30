@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { CalculateService } from '../calculate/calculate.service' 
+
 // models 
 import { Door, Window, Wall, Building, dataExchangeObj } from '../../model/models'
 
@@ -18,6 +20,7 @@ export class DataTrafficService {
   private inputDdata = { }
 
   constructor(
+    public CalculateService: CalculateService,
     private http: HttpClient, 
   ) { }
 
