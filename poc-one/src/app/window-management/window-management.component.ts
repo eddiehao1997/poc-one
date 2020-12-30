@@ -14,73 +14,101 @@ import { DataTrafficService } from '../service/dataTraffic/data-traffic.service'
 })
 export class WindowManagementComponent implements OnInit {
 
-  public windowData = [
-  ]
+  public windowData = [];
 
-  public windowForm;
+  public windowForm: any;
 
-  public currentWindow = {}
+  public currentWindow: Window;
 
-  public loadingData = true
+  public loadingData = true;
 
   constructor(
     public dataTrafficService: DataTrafficService,
     private formBuilder: FormBuilder,
   ) { 
-    this.initiateWindowForm()
+    this.initiateWindowForm();
+    this.loadWindowData();
   }
 
   ngOnInit(): void {
-    this.loadWallData();
+    // this.loadWallData();
   }
 
-  async loadWallData() {
+  private initiateWindowForm() {
+    this.windowForm = this.formBuilder.group({
+      id: 0,
+      name: '',
+      height: 0,
+      width: 0
+    })
+  }
+
+  async loadWindowData() {
     this.loadingData = true;
-    console.log("getting wall data")
-    await this.dataTrafficService.loadData("demo-window-data.json").then((res) => {
-      console.log("logging loadWallData() response");
-      console.log(res);
-      this.windowData = res.data
-    });
+    console.log("getting window data")
+    if (this.dataTrafficService.haveWindows) {
+      this.windowData = this.dataTrafficService.getWindowData();
+    } else {
+      this.windowData = await this.dataTrafficService.chamberWindowData();
+    }
     this.loadingData = false;
   }
 
   public updateWindowData() {
-    alert("currently un available")
+    alert("currently unavailable")
     return true
   }
 
   public selectWindow(wall) {
     this.currentWindow = wall
     this.windowForm = this.formBuilder.group({
+      id: wall.id,
       name: wall.name,
-      thickness: wall.data.thickness
+      height: wall.data.height,
+      width: wall.data.width
     })
-  }
-
-  private initiateWindowForm() {
-    this.windowForm = this.formBuilder.group({
-      name: '',
-      height: 0,
-      width: 0
-    })
-  }
-
-  public onSubmit(customerData) {
-    // Process wall edit data here
-    // this.items = this.cartService.clearCart();
-    this.windowForm.reset();
-
-    console.warn('Your order has been submitted', customerData);
   }
 
   public editNewWindow() {
+    this.currentWindow = {
+      "id": this.windowData.length + 1,
+      "name": "新窗口",
+      "data":{
+          "height": 0,
+          "width": 0
+      }
+    }
+
     this.windowForm = this.formBuilder.group({
+      id: this.windowData.length + 1,
       name: '',
-      height: 0,
-      width: 0
+      height: '',
+      width: ''
     });
-    this.currentWindow = {}
+    
+    this.dataTrafficService.addNewWindow(this.currentWindow);
+    this.windowData = this.dataTrafficService.getWindowData();
+  }
+
+  public onSubmit(customerData) {
+    console.warn('Your order has been submitted', customerData);
+    this.currentWindow = {
+      "id": customerData.id,
+      "name": customerData.name,
+      "data":{
+          "height": customerData.height,
+          "width": customerData.width
+      }
+    }
+
+    for (let index = 0; index < this.windowData.length; index++) {
+      const element = this.windowData[index];
+      if (element.id === customerData.id) {
+        this.windowData[index] = this.currentWindow;
+      }
+    }
+
+    
   }
 
 }

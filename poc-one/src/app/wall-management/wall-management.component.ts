@@ -20,7 +20,7 @@ export class WallManagementComponent implements OnInit {
 
   public wallForm;
 
-  public currentWall = {}
+  public currentWall: Wall;
 
   public loadingData = true
 
@@ -28,21 +28,30 @@ export class WallManagementComponent implements OnInit {
     public dataTrafficService: DataTrafficService,
     private formBuilder: FormBuilder,
   ) { 
-    this.initiateWallForm()
+    this.initiateWallForm();
+    this.loadWallData()
   }
 
   ngOnInit(): void {
-    this.loadWallData();
+    // this.loadWallData();
+  }
+
+  private initiateWallForm() {
+    this.wallForm = this.formBuilder.group({
+      id: 0,
+      name: '',
+      thickness: 0
+    })
   }
 
   async loadWallData() {
     this.loadingData = true;
-    console.log("getting wall data")
-    await this.dataTrafficService.loadData("demo-wall-data.json").then((res) => {
-      console.log("logging this.gisgameService.bootGisgame response");
-      console.log(res);
-      this.wallData = res.data
-    });
+    console.log("getting wall data");
+    if (this.dataTrafficService.haveWalls){
+      this.wallData = this.dataTrafficService.getWallData();
+    } else {
+      this.wallData = await this.dataTrafficService.chamberWallData();
+    }
     this.loadingData = false;
   }
 
@@ -54,31 +63,49 @@ export class WallManagementComponent implements OnInit {
   public selectWall(wall) {
     this.currentWall = wall
     this.wallForm = this.formBuilder.group({
+      id: wall.id,
       name: wall.name,
       thickness: wall.data.thickness
     })
   }
 
-  private initiateWallForm() {
-    this.wallForm = this.formBuilder.group({
-      name: '',
-      thickness: 0
-    })
-  }
-
-  public onSubmit(customerData) {
-    // Process wall edit data here
-    // this.items = this.cartService.clearCart();
-    this.wallForm.reset();
-
-    console.warn('Your order has been submitted', customerData);
-  }
-
   public editNewWall() {
+    this.currentWall = {
+      "id": this.wallData.length + 1,
+      "name": "新墙面",
+      "data":{
+          "thickness": 0,
+      }
+    }
+
     this.wallForm = this.formBuilder.group({
+      id: this.wallData.length + 1,
       name: '',
-      thickness: 0
+      thickness: ''
     });
-    this.currentWall = {}
+
+    this.dataTrafficService.addNewWall(this.currentWall);
+    this.wallData = this.dataTrafficService.getWallData();
   }
+  
+  public onSubmit(customerData) {
+    console.warn('Your order has been submitted', customerData);
+    this.currentWall = {
+      "id": customerData.id,
+      "name": customerData.name,
+      "data":{
+        "thickness": customerData.thickness,
+      }
+    }
+
+    for (let index = 0; index < this.wallData.length; index++) {
+      const element = this.wallData[index];
+      if (element.id === customerData.id) {
+        this.wallData[index] = this.currentWall;
+      }
+    }
+
+    // this.wallForm.reset();
+  }
+
 }

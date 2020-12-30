@@ -1,1 +1,76 @@
-<p>door-management works!</p>
+<div class="container">
+    <div class="row"
+        *ngIf = "loadingData !== true"
+    >
+        <div class="col-5">
+            <h4>已保存门洞</h4>
+            <div class="card door-list-card">
+                <div class="list-group">
+                    <button 
+                        class = "list-group-item list-group-item-action"
+                        *ngFor = "let door of doorData"
+                        [class.active] = "door === currentDoor"
+                        (click) = selectDoor(door)
+                    > {{door.name}} </button>
+                    <button 
+                        class = "list-group-item list-group-item-action text-center"
+                        (click) = editNewDoor()
+                    > 
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        添加新门洞模板
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-7">
+            <h4>编辑栏</h4>
+            <div class="card door-edit-card">
+                <div class="card-body">
+                    <form [formGroup]="doorForm" (ngSubmit)="onSubmit(doorForm.value)">
+                        <label for="name">门洞名称</label>
+                        <div class="input-group">
+                            <input 
+                                class="form-control"
+                                id="name" type="text" formControlName="name"
+                                placeholder="请输入门洞名称">
+                        </div>
+
+                        <label for="height">高度</label>
+                        <div class="input-group">
+                            <input
+                                class="form-control"
+                                id="height" type="number" formControlName="height"
+                                placeholder="请输入门洞高度">
+
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">dm</span>
+                            </div>
+                        </div>
+
+                        <label for="width">宽度</label>
+                        <div class="input-group">
+                            <input
+                                class="form-control"
+                                id="width" type="number" formControlName="width"
+                                placeholder="请输入门洞宽度">
+
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">dm</span>
+                            </div>
+                        </div>
+
+                        <div class="text-center submit-button">
+                            <button type="submit" class="btn btn-light"
+                                style="width:10em;"
+                            >
+                                Save
+                            </button>
+                        </div>
+                        
+                    </form>
+                </div>  
+            </div>
+        </div>
+    </div>
+
+</div>

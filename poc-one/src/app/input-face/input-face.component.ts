@@ -1,5 +1,6 @@
 // libraries
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 // models
 import { Door, Window, Wall, Building } from '../model/models'
@@ -277,11 +278,52 @@ export class InputFaceComponent implements OnInit {
     }
   }
 
+  buildingForm = this.fb.group({
+    id: [''],
+    name: [''],
+    floors: this.fb.array([
+      this.fb.group({
+        id: [1],
+        name: [''],
+        walls: this.fb.array([
+          this.walls
+        ])
+      })
+    ])
+  });
+
   constructor(
     public dataTrafficService: DataTrafficService,
+    public fb: FormBuilder,
   ) { }
-
-
+  
+  get walls(): FormGroup {
+    return this.fb.group({
+      id: [1],
+      name: [''],
+      thickness: ['0'], 
+      totLengh: ['0'],
+      beamDepth: ['0.53'],
+      depUnderBoard: ['6.68'],
+      preDeductable: this.fb.group({
+          beamLengh: ['0'],
+          marginalHeight: ['0']
+      }),
+      totalHole: ['0'],
+      windowsDetail: this.fb.array([
+        this.fb.group({
+          id: ['0'],
+          number: ['0']
+        })
+      ]),
+      doorDetail: this.fb.array([
+        this.fb.group({
+          id: ['0'],
+          number: ['0']
+        })
+      ]),
+    });
+  }
 
   ngOnInit(): void {
   }

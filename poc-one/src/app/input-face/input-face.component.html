@@ -31,57 +31,95 @@
       </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col-9" style="padding-right: 0;">
-      <div class="card floor-card" *ngFor = "let floor of currentBuilding.data.floor">
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col-2">
-              <h5>{{floor.name}}层</h5>
-            </div>
-            <div class="col-10">
-              <div class="row no-gutters">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">墙面类型</th>
-                      <th scope="col">墙面厚度</th>
-                      <th scope="col">墙总长</th>
-                      <th scope="col">梁高（减掉板）</th>
-                      <th scope="col">板下</th>
-                      <th scope="col">梁下墙长</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor = "let wall of floor.data.walls">
-                      <th scope="row">{{wall.name}}</th>
-                      <td>{{wall.data.thickness}}</td>
-                      <td>{{wall.data.totLengh}}</td>
-                      <td>{{wall.data.beamDepth}}</td>
-                      <td>{{wall.data.depUnderBoard}}</td>
-                      <td>{{wall.data.preDeductable.beamLengh}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="container text-center">
-                  <button type="button" class="btn btn-secondary btn-sm"
-                    style="margin-right: 10px;"
-                  >
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    添加新墙面
-                  </button>
-                  <button type="button" class="btn btn-secondary btn-sm">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                    删除选中楼层
-                  </button>
+      <form formGroupName="buildingForm">
+        <div formArrayName="floors">
+          <div class="card floor-card" *ngFor="let floor of buildingForm.get('floors').controls; let ifloor = index">
+            <div class="card-body" [formGroupName]="ifloor">
+              <div class="row no-gutters align-items-center">
+                <div class="col-2">
+                  <input type="text" >
+                </div>
+                <div class="col-10">
+
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-      </div>
+          <!-- <div class="card floor-card" *ngFor = "let floor of floors; let ifloor=index">
+            <div class="card-body">
+
+              <div class="row no-gutters align-items-center">
+                <div class="col-2">
+                  <input type="text">
+                </div>
+                <div class="col-10">
+                  <div class="row no-gutters">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">墙面类型</th>
+                          <th scope="col">墙面厚度</th>
+                          <th scope="col">墙总长</th>
+                          <th scope="col">梁高（减掉板）</th>
+                          <th scope="col">板下</th>
+                          <th scope="col">梁下墙长</th>
+                        </tr>
+                      </thead>
+                      <tbody> -->
+                        <!-- <tr *ngFor = "let wall of walls; let iwall=index">
+                          <div [formGroupName]="iwall">
+                            <th scope="row">
+                              <input formControlName="name">
+                            </th>
+                            <td>
+                              <input formControlName="thickness">
+                            </td>
+                            <td>
+                              <input formControlName="totLengh">
+                            </td>
+                            <td>
+                              <input formControlName="beamDepth">
+                            </td>
+                            <td>
+                              <input formControlName="depUnderBoard">
+                            </td>
+                          </div>
+                        </tr> -->
+                        <!-- <tr *ngFor = "let wall of floor.data.walls">
+                          <th scope="row">{{wall.name}}</th>
+                          <td>{{wall.data.thickness}}</td>
+                          <td>{{wall.data.totLengh}}</td>
+                          <td>{{wall.data.beamDepth}}</td>
+                          <td>{{wall.data.depUnderBoard}}</td>
+                          <td>{{wall.data.preDeductable.beamLengh}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="container text-center">
+                      <button type="button" class="btn btn-secondary btn-sm"
+                        style="margin-right: 10px;"
+                      >
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        添加新墙面
+                      </button>
+                      <button type="button" class="btn btn-secondary btn-sm">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                        删除选中楼层
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div> -->
+      </form>
     </div>
+
     <div class="col-3">
       <div class="card" >
         <div class="card-body">

@@ -10,6 +10,7 @@ import { NavibarComponent } from './navibar/navibar.component';
 import { WallManagementComponent } from './wall-management/wall-management.component';
 import { WindowManagementComponent } from './window-management/window-management.component';
 import { DoorManagementComponent } from './door-management/door-management.component';
+import { IntroductionComponent } from './introduction/introduction.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DoorManagementComponent } from './door-management/door-management.compo
     NavibarComponent,
     WallManagementComponent,
     WindowManagementComponent,
-    DoorManagementComponent
+    DoorManagementComponent,
+    IntroductionComponent
   ],
   imports: [
     BrowserModule,

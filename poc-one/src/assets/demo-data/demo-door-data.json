@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "6*21门洞",
+            "data":{
+                "height": 6,
+                "width": 21
+            }
+        }, 
+        {
+            "id": 2,
+            "name": "9*20门洞",
+            "data":{
+                "height": 9,
+                "width": 20
+            }
+        },
+        {
+            "id": 3,
+            "name": "10*28门洞",
+            "data":{
+                "height": 9,
+                "width": 20
+            }
+        }
+    ]
+}    

@@ -2,8 +2,8 @@ export interface Door {
     id: number;
     name: string;
     data: {
-        length: number;
-        height: number 
+        height: number;
+        width: number 
     }
 }
 
@@ -11,12 +11,20 @@ export interface Window {
     id: number;
     name: string;
     data: {
-        length: number;
-        height: number 
+        height: number;
+        width: number 
     }
 }
 
 export interface Wall {
+    id: number;
+    name: string;
+    data: {
+        thickness: number
+    }
+}
+
+export interface WallTemp {
     id: number;
     name: string;
     data:{
@@ -40,7 +48,7 @@ export interface Floor {
     id: number;
     name: string;
     data: {
-        walls: Wall[]
+        walls: WallTemp[]
     }
 }
 

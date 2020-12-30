@@ -7,6 +7,7 @@ import { NavibarComponent } from '../app/navibar/navibar.component';
 import { WallManagementComponent } from '../app/wall-management/wall-management.component';
 import { WindowManagementComponent } from '../app/window-management/window-management.component';
 import { DoorManagementComponent } from '../app/door-management/door-management.component';
+import { IntroductionComponent } from '../app/introduction/introduction.component';
 
 const routes: Routes = 
 [
@@ -15,9 +16,10 @@ const routes: Routes =
   { path: 'wall-mgmt', component: WallManagementComponent },
   { path: 'window-mgmt', component: WindowManagementComponent },
   { path: 'door-mgmt', component: DoorManagementComponent },
+  { path: 'introduction', component: IntroductionComponent },
 
   // otherwise redirect to home
-  { path: '**', redirectTo: '#' }
+  { path: '**', redirectTo: 'introduction' }
 ];
 
 @NgModule({
