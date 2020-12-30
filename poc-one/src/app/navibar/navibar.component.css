@@ -7,6 +7,10 @@
     margin-bottom: 10px;
 }
 
+.navbar-brand:hover {
+    cursor: pointer;
+}
+
 .navbar-heading:hover {
     color: #04c5cd;
     cursor: pointer;

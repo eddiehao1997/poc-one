@@ -33,7 +33,7 @@ export class InputFaceComponent implements OnInit {
                     id: 0, 
                     name: "80+80", 
                     data:{
-                        thickness: 80, 
+                        thickness: 0.8, 
                         totLengh: 100,
                         beamDepth: 0.53,
                         depUnderBoard: 6.68,
@@ -63,7 +63,11 @@ export class InputFaceComponent implements OnInit {
     }
   }
 
-  buildingForm = this.fb.group({
+  public counters = [
+    []
+  ]
+
+  public buildingForm = this.fb.group({
     id: [''],
     name: [''],
     floors: this.fb.array([
@@ -126,7 +130,29 @@ export class InputFaceComponent implements OnInit {
     // })
   }
   
+  public addFloor(): void {
+    var newFloors= this.fb.group({
+      id: [''],
+      name: [''],
+      walls: this.fb.array([
+        this.walls
+      ])
+    });
+    (this.buildingForm.get("floors") as FormArray).push(newFloors);
+    console.log(this.buildingForm.get("floors"));
+  }
 
+  public deleteFloor(fIndex): void {
+    (this.buildingForm.get("floors") as FormArray).removeAt(fIndex);
+  }
+
+  public addWall(targetFloor): void {
+    targetFloor.get("walls").push(this.walls);
+  }
+
+  public deleteWall(floor, wallIndex): void {
+    floor.get("walls").removeAt(wallIndex);
+  }
 
   public calculateResult() {
     var calResult = {

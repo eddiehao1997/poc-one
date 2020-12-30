@@ -67,8 +67,8 @@ export class CalculateService {
   }
 
   /**
-   * 计算某一墙面面积
-   * @param currWall 待计算的墙面的数据
+   * 计算某一面墙的面积
+   * @param currWall 待计算的墙面的实例
    */
   public calCurrWallArea(currWall): number {
     console.log("checking wall data: ");
