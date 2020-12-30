@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "poc-one"
+    }
+  },
+  "defaultProject": "poc-one",
+  "cli": {
+    "analytics": false
+  }
 }
