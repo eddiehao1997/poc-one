@@ -11,6 +11,7 @@ import { WallManagementComponent } from './wall-management/wall-management.compo
 import { WindowManagementComponent } from './window-management/window-management.component';
 import { DoorManagementComponent } from './door-management/door-management.component';
 import { IntroductionComponent } from './introduction/introduction.component';
+import { InputHoleComponent } from './input-hole/input-hole.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { IntroductionComponent } from './introduction/introduction.component';
     WallManagementComponent,
     WindowManagementComponent,
     DoorManagementComponent,
-    IntroductionComponent
+    IntroductionComponent,
+    InputHoleComponent
   ],
   imports: [
     BrowserModule,

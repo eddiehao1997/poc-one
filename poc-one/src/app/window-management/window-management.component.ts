@@ -73,6 +73,7 @@ export class WindowManagementComponent implements OnInit {
     this.currentWindow = {
       "id": this.windowData.length + 1,
       "name": "新窗口",
+      "count": 0,
       "data":{
           "height": 0,
           "width": 0
@@ -95,6 +96,7 @@ export class WindowManagementComponent implements OnInit {
     this.currentWindow = {
       "id": customerData.id,
       "name": customerData.name,
+      "count": 0,
       "data":{
           "height": customerData.height,
           "width": customerData.width

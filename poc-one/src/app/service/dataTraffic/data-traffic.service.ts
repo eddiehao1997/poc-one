@@ -14,23 +14,47 @@ import { element } from 'protractor';
 })
 export class DataTrafficService {
 
+  public currentBuildingData: {
+    id: number, 
+    name: string,
+    data:{
+        sumSurface: number,
+        sumVolume: number,
+    }
+  }
+
   private wallData: Array<Wall>;
   private doorData: Array<Door>;
   private windowData: Array<Window>;
+  private buildingData: any;
 
+  public havebuildingData: boolean;
   public haveWalls: boolean;
   public haveDoors: boolean;
   public haveWindows: boolean;
+  public haveBuildings: boolean;
 
+  
   private inputDdata = []
 
   constructor(
     public CalculateService: CalculateService,
     private http: HttpClient, 
   ) { 
+    this.havebuildingData = false;
     this.haveDoors = false;
     this.haveWalls = false;
     this.haveWindows = false;
+    this.haveBuildings = false;
+  }
+
+  public getCurrentBuildingData() {
+    return this.currentBuildingData
+  }
+
+  public saveCurrentBuildingData(currentBuildingData) {
+    this.havebuildingData = true;
+    this.currentBuildingData = currentBuildingData;
   }
 
   public getWallData() {
@@ -43,6 +67,10 @@ export class DataTrafficService {
 
   public getWindowData() {
     return this.windowData
+  }
+
+  public getBuildingData() {
+    return this.buildingData
   }
 
   async chamberWallData() {
@@ -76,6 +104,11 @@ export class DataTrafficService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  public saveBuildingData(buildingData) {
+    this.haveBuildings = true;
+    this.buildingData = buildingData;
   }
 
   public addNewWall(wall: Wall) {

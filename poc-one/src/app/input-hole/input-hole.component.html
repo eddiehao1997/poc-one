@@ -1,0 +1,184 @@
+<div class="container" style="padding-left:0; padding-right: 0; max-width: 90vw;">
+
+    <div class="card building-card" style="margin-bottom: 10px;">
+      <div class="card-body" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="row">
+          <div class="col-6">
+            <div class="btn-group">
+              <h4 style="margin-right: 20px;">楼号选择</h4>
+              <button type="button" class="btn dropdown-toggle text-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                style=" min-width: 100px;"
+              >
+                {{currentBuilding.name}}
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">1#楼</a>
+                <a class="dropdown-item" href="#">2#楼</a>
+                <a class="dropdown-item" href="#">3#楼</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 text-right">
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-10" style="padding-right: 0;">
+        <div class="card" style="text-align: center; height: 70vh;"
+          *ngIf="!this.dataTrafficService.haveBuildings">
+          <div class="card-body">
+            <h4>请在 <a routerLink="../inputFace">录入墙面</a> 页面登记楼层与墙面后再添加门窗洞口</h4>
+          </div>
+          
+        </div>
+
+        <form [formGroup]="buildingForm">
+          
+          <div formArrayName="floors">
+            <div class="card floor-card" 
+              *ngFor="let floor of buildingForm.get('floors')['controls']; let ifloor = index"
+              [formGroupName]="ifloor">
+
+              <div class="card-body">
+                <div class="row align-items-center">
+
+                  <div class="col-1">
+                    <input type="text" readonly formControlName="name" placeholder="楼层名称"
+                      style="width: 100%; text-align: center;" class="form-control">
+                    <p style="text-align: center;">楼层</p>
+                  </div>
+  
+                  <div class="col-11" formArrayName="walls">
+
+                    <div class="row">
+                      <div class="col-2" style="text-align: center;">
+                        墙面类型：
+                      </div>
+                    </div>
+                    
+                    <div class="card" *ngFor="let wall of floor.get('walls')['controls'];
+                        let wallIndex = index" [formGroupName]="wallIndex">
+
+                        <div class="row align-items-center">
+                          <div class="col-2" style="text-align: center;">
+                            <input type="text" readonly class="form-control"
+                              formControlName="name" class="form-control form-control-sm">
+                              <div class="input-group input-group-sm mb-3 wall-input-group">
+                                <input type="text" readonly class="form-control"
+                                  formControlName="thickness" placeholder="0"  aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                  <span class="input-group-text" id="basic-addon2">cm</span>
+                                </div>
+                              </div>
+                          </div>
+
+                          <div class="col-10">
+
+                            <div class="row align-items-center">
+                              <button type="button" class="btn btn-success btn-sm" style="height: 9vh;"
+                                (click)="addDoor(wall)" >
+                                添加<br>门洞 
+                              </button>
+                              <div class="card-group" style="width: 90%;" formArrayName="doorDetail">
+                                <div class="card" style="max-width: 20%;" *ngFor="let door of wall.get('doorDetail')['controls'];
+                                    let doorIndex = index" [formGroupName]="doorIndex">
+
+                                    <div class="input-group input-group-sm mb-3 wall-input-group">
+                                        <select id="inputState" class="form-control" 
+                                            formControlName="name" #t 
+                                            (change)="onSelectDoor(t.value, door)">
+                                            <option *ngFor="let door of availableDoorList; let idoor = index" value="{{door.name}}">
+                                                {{door.name}}
+                                            </option> 
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group input-group-sm mb-3 wall-input-group"
+                                      style="width: 70%;">
+                                      <input type="number" class="form-control"
+                                        formControlName="count" aria-describedby="basic-addon2">
+                                      <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2">个</span>
+                                      </div>
+                                      <!-- <button type="button" class="btn btn-light btn-sm"
+                                        (click)="deleteDoor(wall, doorIndex)" >
+                                        删除
+                                      </button> -->
+                                    </div>
+                                    
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row align-items-center">
+                              <button type="button" class="btn btn-success btn-sm" style="height: 9vh;"
+                                (click)="addWindow(wall)" >
+                                添加<br>窗洞
+                              </button>
+                              <div class="card-group" style="width: 90%;" formArrayName="windowsDetail">
+                                <div class="card" style="max-width: 20%;" *ngFor="let window of wall.get('windowsDetail')['controls'];
+                                    let windowIndex = index" [formGroupName]="windowIndex">
+
+                                    <div class="input-group input-group-sm mb-3 wall-input-group">
+                                        <select id="inputState" class="form-control" 
+                                            formControlName="name" #t 
+                                            (change)="onSelectWindow(t.value, window)">
+                                            <option *ngFor="let window of availableWindowList; let iwindow = index" value="{{window.name}}">
+                                                {{window.name}}
+                                            </option> 
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group input-group-sm mb-3 wall-input-group"
+                                      style="width: 70%;">
+                                      <input type="number" class="form-control"
+                                        formControlName="count" aria-describedby="basic-addon2">
+                                      <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2">个</span>
+                                      </div>
+                                    </div>
+                                    
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        
+                    </div>
+
+                  </div>
+  
+                </div>
+              </div>
+
+            </div>
+          </div>
+  
+        </form>
+      </div>
+  
+      <div class="col-2">
+        <div class="card" >
+          <div class="card-body">
+            
+            <h4 class="card-title align-items-right">{{currentBuilding.name}}小结</h4>
+            <p class="card-text"> 总面积 </p>
+            <h4 class="sum-data"> {{currentBuilding.data.sumSurface}} m<sup>2</sup> </h4>
+            <p class="card-text"> 总体积 </p>
+            <h4 class="sum-data"> {{currentBuilding.data.sumVolume}} m<sup>3</sup> </h4>
+  
+            <button type="button" class="btn btn-primary btn-sm btn-block" 
+            (click)="calculateResult()">保存并计算</button>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  
+   

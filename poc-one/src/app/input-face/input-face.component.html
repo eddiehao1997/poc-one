@@ -1,4 +1,5 @@
 <div class="container" style="padding-left:0; padding-right: 0; max-width: 90vw;">
+
   <div class="card building-card" style="margin-bottom: 10px;">
     <div class="card-body" style="padding-top: 10px; padding-bottom: 10px;">
       <div class="row">
@@ -36,8 +37,9 @@
   </div>
 
   <div class="row">
-    <div class="col-10" style="padding-right: 0;">
+    <div class="col-9" style="padding-right: 0;">
       <form [formGroup]="buildingForm">
+        
         <div formArrayName="floors">
           <div class="card floor-card" 
             *ngFor="let floor of buildingForm.get('floors')['controls']; let ifloor = index"
@@ -76,15 +78,19 @@
                             let wallIndex = index" [formGroupName]="wallIndex">
                               <td style="width: 20%;">
                                 <div class="input-group input-group-sm mb-3 wall-input-group">
-                                  <select id="inputState" class="form-control">
-                                    <option>Choose...</option>
-                                    <option>...</option>
+                                  <select id="inputState" class="form-control" 
+                                    formControlName="name" #t 
+                                    (change)="onSelectWall(t.value, wall)">
+                                    <option *ngFor="let wall of availableWallList; let iwall = index" value="{{wall.name}}">
+                                      {{wall.name}}
+                                    </option> 
                                   </select>
                                 </div>
                               </td>
                               <td>
                                 <div class="input-group input-group-sm mb-3 wall-input-group">
-                                  <input type="text" readonly class="form-control" placeholder="0"  aria-describedby="basic-addon2">
+                                  <input type="text" readonly class="form-control"
+                                    formControlName="thickness" placeholder="0"  aria-describedby="basic-addon2">
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">cm</span>
                                   </div>
@@ -92,7 +98,8 @@
                               </td>
                               <td>
                                 <div class="input-group input-group-sm mb-3 wall-input-group">
-                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon3">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon3"
+                                    formControlName="totLengh" >
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon3">m</span>
                                   </div>
@@ -100,7 +107,8 @@
                               </td>
                               <td>
                                 <div class="input-group input-group-sm mb-3 wall-input-group">
-                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon4">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon4"
+                                    formControlName="depUnderBoard">
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon4">m</span>
                                   </div>
@@ -108,7 +116,8 @@
                               </td>
                               <td>
                                 <div class="input-group input-group-sm mb-3 wall-input-group">
-                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon5">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon5"
+                                    formControlName="beamDepth">
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon5">m</span>
                                   </div>
@@ -116,8 +125,9 @@
                               </td>
                               <td>
                                 <!-- <input class="wall-table-input" formControlName="name"> -->
-                                <div class="input-group input-group-sm mb-3 wall-input-group">
-                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon6">
+                                <div class="input-group input-group-sm mb-3 wall-input-group" formGroupName="preDeductable">
+                                  <input type="text" class="form-control" placeholder="0"  aria-describedby="basic-addon6"
+                                    formControlName="beamLength">
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon6">m</span>
                                   </div>
@@ -159,18 +169,18 @@
       </form>
     </div>
 
-    <div class="col-2">
+    <div class="col-3">
       <div class="card" >
         <div class="card-body">
           
           <h4 class="card-title align-items-right">{{currentBuilding.name}}小结</h4>
-          <p class="card-text"> 总面积 </p>
+          <p class="card-text"> 面积（未减去墙洞） </p>
           <h4 class="sum-data"> {{currentBuilding.data.sumSurface}} m<sup>2</sup> </h4>
-          <p class="card-text"> 总体积 </p>
+          <p class="card-text"> 体积（未减去墙洞） </p>
           <h4 class="sum-data"> {{currentBuilding.data.sumVolume}} m<sup>3</sup> </h4>
 
           <button type="button" class="btn btn-primary btn-sm btn-block" 
-          (click)="calculateResult()">计算</button>
+          (click)="calculateResult()">保存并计算</button>
         </div>
       </div>
     </div>

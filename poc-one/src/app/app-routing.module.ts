@@ -8,10 +8,12 @@ import { WallManagementComponent } from '../app/wall-management/wall-management.
 import { WindowManagementComponent } from '../app/window-management/window-management.component';
 import { DoorManagementComponent } from '../app/door-management/door-management.component';
 import { IntroductionComponent } from '../app/introduction/introduction.component';
+import { InputHoleComponent } from '../app/input-hole/input-hole.component';
 
 const routes: Routes = 
 [
   { path: 'inputFace', component: InputFaceComponent },
+  { path: 'input-door-window', component: InputHoleComponent },
   // { path: 'navibar', component: NavibarComponent },
   { path: 'wall-mgmt', component: WallManagementComponent },
   { path: 'window-mgmt', component: WindowManagementComponent },

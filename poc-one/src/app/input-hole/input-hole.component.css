@@ -1,0 +1,46 @@
+.floor-card {
+    margin-bottom: 10px;
+}
+
+.hole-card-body {
+    padding: 0.5vh;
+}
+
+.hole-group {
+    height: 15vh;
+    /* width: 300%; */
+    /* height: 100%; */
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.hole-table-row {
+    margin-left: 0px;
+    margin-right: 0px;
+    height: 15vh;
+}
+
+.sum-data {
+    color: #0275d8
+}
+
+.table td, .table th {
+    padding: 0.25em;
+}
+
+.wall-input-group {
+    margin-bottom: 0 !important;
+}
+
+.wall-input-head {
+    font-size: 1vw;
+    /* width: 16.6%; */
+}
+
+.wall-table-input {
+    width: 100%;
+}
+
+.wall-table-row {
+    margin-bottom: 5vh !important;
+}

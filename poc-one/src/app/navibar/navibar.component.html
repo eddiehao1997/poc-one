@@ -8,22 +8,28 @@
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"
+                <!-- <li class="nav-item"
                     [ngClass]="{ 'active': getRoute('/wall-mgmt')}">
                     <a class="nav-link navbar-heading" (click)="gotoRoute('wall-mgmt')">墙面类型</a>
-                </li>
-                <li class="nav-item dropdown">
+                </li> -->
+                <li class="nav-item dropdown"
+                    [ngClass]="{ 'active': getRoute('/wall-mgmt') || getRoute('/door-mgmt') || getRoute('/window-mgmt')}">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        门窗类型
+                        基本信息登记
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="gotoRoute('wall-mgmt')">墙面信息管理</a>
                         <a class="dropdown-item" (click)="gotoRoute('door-mgmt')">门信息管理</a>
                         <a class="dropdown-item" (click)="gotoRoute('window-mgmt')">窗信息管理</a>
                     </div>
                 </li>
                 <li class="nav-item"
                     [ngClass]="{ 'active': getRoute('/inputFace')}">
-                    <a class="nav-link navbar-heading" (click)="gotoRoute('inputFace')">工程计算</a>
+                    <a class="nav-link navbar-heading" (click)="gotoRoute('inputFace')">录入墙面</a>
+                </li>
+                <li class="nav-item"
+                    [ngClass]="{ 'active': getRoute('/input-door-window')}">
+                    <a class="nav-link navbar-heading" (click)="gotoRoute('input-door-window')">录入门窗</a>
                 </li>
             </ul>
         </div>

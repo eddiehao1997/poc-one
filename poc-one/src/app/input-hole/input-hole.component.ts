@@ -1,6 +1,7 @@
 // libraries
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Router, NavigationStart } from "@angular/router";
 
 // models
 import { Door, Window, Wall, Building, Floor, WallTemp } from '../model/models'
@@ -9,15 +10,14 @@ import { Door, Window, Wall, Building, Floor, WallTemp } from '../model/models'
 import { DataTrafficService } from '../service/dataTraffic/data-traffic.service'
 import { CalculateService } from '../service/calculate/calculate.service';
 
-
 @Component({
-  selector: 'app-input-face',
-  templateUrl: './input-face.component.html',
-  styleUrls: ['./input-face.component.css']
+  selector: 'app-input-hole',
+  templateUrl: './input-hole.component.html',
+  styleUrls: ['./input-hole.component.css']
 })
-export class InputFaceComponent implements OnInit {
+export class InputHoleComponent implements OnInit {
 
-  public currentBuilding = {
+  currentBuilding = {
     id: 1, 
     name: "1#楼",
     data:{
@@ -26,32 +26,27 @@ export class InputFaceComponent implements OnInit {
     }
   }
 
-  public availableWallList: Array<Wall>
+  public availableDoorList: Array<Door>
+  public availableWindowList: Array<Window>
 
   public buildingForm = this.fb.group({
     id: [''],
     name: [''],
     floors: this.fb.array([
-      this.fb.group({
-        id: [1],
-        name: [''],
-        walls: this.fb.array([
-          this.walls
-        ])
-      })
     ])
   });
 
   constructor(
     public dataTrafficService: DataTrafficService,
     public fb: FormBuilder,
-    public calculateService: CalculateService
+    public calculateService: CalculateService,
+    public router: Router,
   ) {  
   }
   
   get walls(): FormGroup {
     return this.fb.group({
-      id: [0],
+      id: [1],
       name: [''],
       thickness: [0], 
       totLengh: [0],
@@ -63,6 +58,7 @@ export class InputFaceComponent implements OnInit {
       }),
       totalHole: [0],
       windowsDetail: this.fb.array([
+        
       ]),
       doorDetail: this.fb.array([
       ]),
@@ -70,23 +66,61 @@ export class InputFaceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadWallData();
+    this.loadDoorData();
+    this.loadWindowData();
+
     if (this.dataTrafficService.haveBuildings) {
-      this.buildingForm = this.fb.group({
-        id: [''],
-        name: [''],
-        floors: this.fb.array([
-        ])
-      });
       this.loadBuildingData()
     }
-
     if (this.dataTrafficService.havebuildingData) {
       this.currentBuilding = this.dataTrafficService.getCurrentBuildingData()
     }
   }
 
+  public deleteDoor(wall, doorIndex): void {
+    wall.get("doorDetail").removeAt(doorIndex);
+  }
+
+  public deleteWindow(wall, windowIndex): void {
+    wall.get("windowsDetail").removeAt(windowIndex);
+  }
+
+  public onSelectDoor(doorName, doorControl) {
+    // console.log(this.availableWallList[wallIndex]);
+    console.log(doorControl);
+    for (let index = 0; index < this.availableDoorList.length; index++) {
+      const element = this.availableDoorList[index];
+      if (element.name === doorName) {
+        doorControl.patchValue({
+          // name: this.availableWallList[wallIndex].name,
+          data: {
+            height: element.data.height,
+            width: element.data.width
+          }
+        })
+      }
+    }
+  }
+
+  public onSelectWindow(windowName, windowrControl) {
+    // console.log(this.availableWallList[wallIndex]);
+    console.log(windowrControl);
+    for (let index = 0; index < this.availableWindowList.length; index++) {
+      const element = this.availableWindowList[index];
+      if (element.name === windowName) {
+        windowrControl.patchValue({
+          // name: this.availableWallList[wallIndex].name,
+          data: {
+            height: element.data.height,
+            width: element.data.width
+          }
+        })
+      }
+    }
+  }
+
   public addDoor(wall) {
+    console.log(wall.get("doorDetail"));
     var newDoor= this.fb.group({
       id: [0],
       name: [''],
@@ -100,6 +134,7 @@ export class InputFaceComponent implements OnInit {
   }
 
   public addWindow(wall) {
+    console.log(wall);
     var newWindow= this.fb.group({
       id: [0],
       name: [''],
@@ -108,8 +143,8 @@ export class InputFaceComponent implements OnInit {
           height: [0],
           width: [0] 
       })
-    })
-    wall.get("windowsDetail").push(newWindow);
+    });
+    (wall.get("windowsDetail") as FormArray).push(newWindow);
   }
 
   public loadBuildingData(){
@@ -135,21 +170,35 @@ export class InputFaceComponent implements OnInit {
           const door = wall.windowsDetail[iwindow];
           this.addWindow(wallControl);
         }
+
       }
     }
 
     this.buildingForm.patchValue(savedBuildingData);
   }
 
-  async loadWallData() {
-    const hasWall = this.dataTrafficService.getWallData();
-    if (hasWall) {
-      this.availableWallList = this.dataTrafficService.getWallData();
+  async loadDoorData() {
+    const hasDoor = this.dataTrafficService.haveDoors;
+    console.log(hasDoor);
+    if (hasDoor) {
+      this.availableDoorList = this.dataTrafficService.getDoorData();
     } else {
-      this.availableWallList = await this.dataTrafficService.chamberWallData();
+      this.availableDoorList = await this.dataTrafficService.chamberDoorData();
     }
+    console.log(this.availableDoorList);
   }
-  
+
+  async loadWindowData() {
+    const haveWindows = this.dataTrafficService.haveWindows;
+    console.log(haveWindows);
+    if (haveWindows) {
+      this.availableWindowList = this.dataTrafficService.getWindowData();
+    } else {
+      this.availableWindowList = await this.dataTrafficService.chamberWindowData();
+    }
+    console.log(this.availableWindowList);
+  }
+
   public addFloor(): void {
     console.log("adding new floor");
     var newFloors= this.fb.group({
@@ -165,7 +214,7 @@ export class InputFaceComponent implements OnInit {
   public deleteFloor(fIndex): void {
     (this.buildingForm.get("floors") as FormArray).removeAt(fIndex);
   }
-
+  
   public addWall(targetFloor): void {
     console.log("adding new wall");
     targetFloor.get("walls").push(this.walls);
@@ -225,22 +274,22 @@ export class InputFaceComponent implements OnInit {
         }
         for (let index = 0; index < currWall.doorDetail.length; index++) {
           const currDoor = currWall.doorDetail[index];
-          // console.log(currDoor);
+          console.log(currDoor);
           var holeTemplate: Door;
           holeTemplate = {
             id: currDoor.id,
-            name:'noName',
-            count: 0,
+            name: currDoor.name,
+            count: currDoor.count,
             data: {
-              height: 0,
-              width: 0 
+              height: currDoor.data.height,
+              width: currDoor.data.width
             }
           }
           wallTemplate.data.doorAndWindow.doorDetail.push(holeTemplate)
         }
         for (let index = 0; index < currWall.windowsDetail.length; index++) {
           const currWindow = currWall.windowsDetail[index];
-          // console.log(currWindow);
+          console.log(currWindow);
           var holeTemplate: Door;
           holeTemplate = {
             id: currWindow.id,
@@ -276,21 +325,17 @@ export class InputFaceComponent implements OnInit {
     console.log(calResult);
     this.currentBuilding.data.sumSurface = calResult.sumSurface;
     this.currentBuilding.data.sumVolume = calResult.sumVolume;
-    this.dataTrafficService.saveCurrentBuildingData(this.currentBuilding);
+    console.log(this.currentBuilding);
+    // this.dataTrafficService.saveCurrentBuildingData(this.currentBuilding);
   }
 
-  public onSelectWall(wallIndex, wallControl) {
-    // console.log(this.availableWallList[wallIndex]);
-    console.log(wallControl);
-    for (let index = 0; index < this.availableWallList.length; index++) {
-      const element = this.availableWallList[index];
-      if (element.name === wallIndex) {
-        wallControl.patchValue({
-          // name: this.availableWallList[wallIndex].name,
-          thickness: element.data.thickness
-        })
-      }
-    }
+  public onSelectWall(wallThickness, wallIndex) {
+    wallIndex.patchValue({
+      thickness: wallThickness
+    })
   }
 
+  public goNavigate(target: string) {
+    this.router.navigate([target]);
+  }
 }

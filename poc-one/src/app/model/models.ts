@@ -1,6 +1,7 @@
 export interface Door {
     id: number;
     name: string;
+    count: number;
     data: {
         height: number;
         width: number 
@@ -10,6 +11,7 @@ export interface Door {
 export interface Window {
     id: number;
     name: string;
+    count: number;
     data: {
         height: number;
         width: number 
@@ -33,7 +35,7 @@ export interface WallTemp {
         beamDepth: number;
         depUnderBoard: number;
         preDeductable: {
-            beamLengh: number;
+            beamLength: number;
             marginalHeight: number
         },
         doorAndWindow: {
@@ -56,7 +58,7 @@ export interface Building {
     id: number;
     name: string;
     data:{
-        walls: Floor[]
+        floors: Floor[]
     }
 }
 

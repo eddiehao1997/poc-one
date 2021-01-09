@@ -73,6 +73,7 @@ export class DoorManagementComponent implements OnInit {
     this.currentDoor = {
       "id": this.doorData.length + 1,
       "name": "新门洞",
+      "count": 0,
       "data":{
           "height": 0,
           "width": 0
@@ -95,6 +96,7 @@ export class DoorManagementComponent implements OnInit {
     this.currentDoor = {
       "id": customerData.id,
       "name": customerData.name,
+      "count": 0,
       "data":{
           "height": customerData.height,
           "width": customerData.width

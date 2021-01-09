@@ -5,16 +5,16 @@ import { Injectable } from '@angular/core';
 })
 export class CalculateService {
 
-  public demoData: any;
+  public buildingData: any;
 
   constructor() { }
 
-  public loadDemoData(buildingData: any) {
-    this.demoData = buildingData;
+  public loadBuildingData(incomingBuildingData: any) {
+    this.buildingData = incomingBuildingData;
   }
 
   /**
-   * 依据demoData计算墙面面积及体积
+   * 依据buildingData计算墙面面积及体积
    */
   public goCalculate() {
     var calResult = {
@@ -23,7 +23,7 @@ export class CalculateService {
     }
 
     // 楼层数组
-    var floorList = this.demoData.data.floor;
+    var floorList = this.buildingData.data.floors;
 
     var tempResult: Array<any>;
     console.log("checking floorList:")
@@ -60,7 +60,7 @@ export class CalculateService {
     // 依据上述面积计算结果计算墙面体积
     for (let index = 0; index < tempResult.length; index++) {
       const wall = tempResult[index];
-      calResult.sumVolume += wall.area * wall.thickness;
+      calResult.sumVolume += (wall.area * wall.thickness) / 100;
     }
     
     return calResult
@@ -87,52 +87,12 @@ export class CalculateService {
     var doorAndWindow = wallDataObj.doorAndWindow.windowsDetail.concat(wallDataObj.doorAndWindow.doorDetail);
     for (let index = 0; index < doorAndWindow.length; index++) {
       const hole = doorAndWindow[index];
-      wallArea -= (hole.data.width * hole.data.width * hole.count) / 100
+      console.log(hole);
+      console.log((hole.data.width * hole.data.height * hole.count) / 100)
+      wallArea -= (hole.data.width * hole.data.height * hole.count) / 100
     }
     console.log("依次扣除门窗面积");
     console.log(wallArea);
     return wallArea
-  }
-
-
-  public finalCalc(current_Building){
-    var sum_area: number;
-    let building = current_Building
-
-    function d_sum(d){
-      let d_area = d.width * d.height * d.count/1000
-      return d_area;
-    }
-
-    function w_sum(w){
-      let w_area = w.width * w.height * w.count/1000
-      return w_area;
-    }
-
-    function floor_w_d_area(floor, thickness){
-      let result = 0
-      let walls = current_Building.floor
-      
-    }
-
-    function preduct_area(floor): Array<any> {
-      let areaResult: Array<any>;
-      var currWallResult: any;
-
-      for (let index = 0; index < current_Building.floor.data.walls.length; index++) {
-        const wall = current_Building.floor.data.walls[index];
-        currWallResult = wall;
-        currWallResult.area = wall.totLength*floor.depUnderBoard;
-        areaResult.push(currWallResult);
-      };
-      console.log(areaResult);
-      return areaResult;
-    }
-
-    // function deduct_calculation_perfloor(wall): {
-
-    // }
-
-
   }
 }
